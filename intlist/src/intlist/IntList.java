@@ -3,8 +3,18 @@ package intlist;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+/**
+ * Each instance of this class stores a sequence of integers.
+ * 
+ * @invar | getElements() != null
+ */
 public class IntList {
 	
+	/**
+	 * @invar | elements != null
+	 * 
+	 * @representationObject
+	 */
 	private int[] elements;
 	
 	/**
@@ -38,6 +48,8 @@ public class IntList {
 	}
 	
 	/**
+	 * @mutates | this
+	 * 
 	 * @post | getLength() == old(getLength()) + 1
 	 * @post | getElementAt(old(getLength())) == value
 	 * @post | IntStream.range(0, old(getLength())).allMatch(i ->
