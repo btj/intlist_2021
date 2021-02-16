@@ -14,14 +14,16 @@ class IntListTest {
 		intList.addElement(42);
 		
 		int[] elements = intList.getElements();
+		
 		assertEquals(42, elements[0]);
-		assertArrayEquals(new int[] {42}, elements);
 		
-		elements[0] = 43;
+		intList.setElement(0, 43);
+
+		assertEquals(42, elements[0]);
 		
-		//assertEquals(42, intList.getElementAt(0));
-		// representation exposure:
-		assertEquals(43, intList.getElementAt(0));
+		int[] newElements = intList.getElements();
+		
+		assertEquals(43, newElements[0]);
 	}
 
 }

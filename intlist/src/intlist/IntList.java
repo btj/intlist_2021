@@ -12,7 +12,7 @@ public class IntList {
 	 * @basic
 	 */
 	public int[] getElements() {
-		return elements; // FOUT!
+		return elements.clone();
 	}
 	
 	/**
