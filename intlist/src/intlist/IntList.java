@@ -10,26 +10,76 @@ import java.util.stream.IntStream;
  */
 public class IntList {
 	
+	private static class Node {
+		/**
+		 * @invar | previous != null
+		 * @invar | next != null
+		 * @invar | next.previous == this
+		 * @invar | previous.next == this
+		 * @peerObject
+		 */
+		private Node previous;
+		private int value;
+		/**
+		 * @peerObject
+		 */
+		private Node next;
+		
+		private int getLengthTo(Node node) {
+			if (this == node)
+				return 0;
+			else
+				return 1 + next.getLengthTo(node);
+		}
+	}
+	
 	/**
-	 * @invar | elements != null
+	 * @invar | sentinel != null
+	 * @invar | sentinel.next.getLengthTo(sentinel) == length
 	 * 
 	 * @representationObject
 	 */
-	private int[] elements;
+	private int length;
+	private Node sentinel;
 	
 	/**
 	 * @creates | result
 	 * @basic
 	 */
 	public int[] getElements() {
-		return elements.clone();
+		int[] result = new int[length];
+		Node node = sentinel.next;
+		for (int i = 0; i < length; i++) {
+			result[i] = node.value;
+			node = node.next;
+		}
+		return result;
 	}
 	
 	/**
 	 * @post | result == getElements().length
 	 */
 	public int getLength() {
-		return elements.length;
+		return length;
+	}
+	
+	private Node getNodeAt(int index) {
+		if (index <= length/2) {
+			Node node = sentinel.next;
+			while (0 < index) {
+				node = node.next;
+				index--;
+			}
+			return node;
+		} else {
+			Node node = sentinel;
+			while (index < length) {
+				node = node.previous;
+				index++;
+			}
+			return node;
+		}
+		
 	}
 	
 	/**
@@ -37,14 +87,16 @@ public class IntList {
 	 * @post | result == getElements()[index]
 	 */
 	public int getElementAt(int index) {
-		return elements[index];
+		return getNodeAt(index).value;
 	} 
 
 	/**
 	 * @post | getLength() == 0
 	 */
 	public IntList() {
-		elements = new int[0];
+		sentinel = new Node();
+		sentinel.next = sentinel;
+		sentinel.previous = sentinel;
 	}
 	
 	/**
@@ -58,10 +110,13 @@ public class IntList {
 	 *       |               old(getElements()), 0, old(getLength()))
 	 */
 	public void addElement(int value) {
-		int[] newElements = new int[elements.length + 1];
-		System.arraycopy(elements, 0, newElements, 0, elements.length);
-		newElements[elements.length] = value;
-		elements = newElements;
+		Node newNode = new Node();
+		newNode.value = value;
+		newNode.next = sentinel;
+		newNode.previous = sentinel.previous;
+		sentinel.previous = newNode;
+		newNode.previous.next = newNode;
+		length++;
 	}
 	
 	/**
@@ -78,7 +133,7 @@ public class IntList {
 	 * // voorwaarde ? waar-waarde : onwaar-waarde 
 	 */
 	public void setElement(int index, int value) {
-		elements[index] = value;
+		getNodeAt(index).value = value;
 	}
 	
 }
