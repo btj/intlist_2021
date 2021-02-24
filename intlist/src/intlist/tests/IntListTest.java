@@ -29,6 +29,15 @@ class IntListTest {
 		intList.addElement(47);
 		
 		assertArrayEquals(new int[] {43, 53, 47}, intList.getElements());
+		
+		intList.removeLastElement();
+		assertArrayEquals(new int[] {43, 53}, intList.getElements());
+		
+		intList.removeLastElement();
+		assertArrayEquals(new int[] {43}, intList.getElements());
+		
+		intList.removeLastElement();
+		assertArrayEquals(new int[] {}, intList.getElements());
 	}
 
 }

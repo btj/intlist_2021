@@ -122,6 +122,21 @@ public class IntList {
 	/**
 	 * @mutates | this
 	 * 
+	 * @pre | 1 <= getLength()
+	 * 
+	 * @post | getLength() == old(getLength()) - 1
+	 * @post | Arrays.equals(getElements(), 0, getLength(), old(getElements()), 0, getLength())
+	 */
+	public void removeLastElement() {
+		Node lastElement = sentinel.previous;
+		lastElement.previous.next = lastElement.next;
+		lastElement.next.previous = lastElement.previous;
+		length--;
+	}
+	
+	/**
+	 * @mutates | this
+	 * 
 	 * @pre | 0 <= index && index < getLength()
 	 * @post | getLength() == old(getLength())
 	 * @post | IntStream.range(0, getLength()).allMatch(i ->
