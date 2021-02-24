@@ -63,6 +63,20 @@ public class IntList {
 		newElements[elements.length] = value;
 		elements = newElements;
 	}
+
+	/**
+	 * @mutates | this
+	 * 
+	 * @pre | 1 <= getLength()
+	 * 
+	 * @post | getLength() == old(getLength()) - 1
+	 * @post | Arrays.equals(getElements(), 0, getLength(), old(getElements()), 0, getLength())
+	 */
+	public void removeLastElement() {
+		int[] newElements = new int[elements.length - 1];
+		System.arraycopy(elements, 0, newElements, 0, newElements.length);
+		elements = newElements;
+	}
 	
 	/**
 	 * @mutates | this
